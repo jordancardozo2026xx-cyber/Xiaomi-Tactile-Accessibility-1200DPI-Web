@@ -18,33 +18,29 @@ const SETTINGS = {
 };
 
 // Elementos del DOM
-const normalBtn = document.getElementById('normalMode');
-const gameBtn = document.getElementById('gameMode');
-const ffBtn = document.getElementById('ffMode');
-const statusDiv = document.getElementById('status');
+document.addEventListener('DOMContentLoaded', function() {
+    const normalBtn = document.getElementById('normalMode');
+    const gameBtn = document.getElementById('gameMode');
+    const ffBtn = document.getElementById('ffMode');
+    const statusDiv = document.getElementById('status');
 
-// Funciones de activación
-function activateMode(mode) {
-    statusDiv.textContent = SETTINGS[mode].description;
-    
-    // Guarda la configuración en el navegador
-    localStorage.setItem('tactileSettings', JSON.stringify(SETTINGS[mode]));
-    
-    // Efecto visual de confirmación
-    statusDiv.style.color = "#FFEB3B";
-    setTimeout(() => statusDiv.style.color = "#4CAF50", 2000);
-}
+    // Funciones de activación
+    function activateMode(mode) {
+        statusDiv.textContent = SETTINGS[mode].description;
+        
+        // Guarda la configuración en el navegador
+        localStorage.setItem('tactileSettings', JSON.stringify(SETTINGS[mode]));
+    }
 
-// Eventos de los botones
-normalBtn.addEventListener('click', () => activateMode('normal'));
-gameBtn.addEventListener('click', () => activateMode('game'));
-ffBtn.addEventListener('click', () => activateMode('ff'));
+    // Eventos de los botones
+    if(normalBtn) normalBtn.addEventListener('click', () => activateMode('normal'));
+    if(gameBtn) gameBtn.addEventListener('click', () => activateMode('game'));
+    if(ffBtn) ffBtn.addEventListener('click', () => activateMode('ff'));
 
-// Carga la configuración guardada al iniciar
-window.onload = () => {
+    // Carga la configuración guardada al iniciar
     const saved = localStorage.getItem('tactileSettings');
     if (saved) {
         const settings = JSON.parse(saved);
         statusDiv.textContent = `Configuración guardada - ${settings.dpi} DPI | Sensibilidad ${settings.sensitivity}%`;
     }
-};
+});
